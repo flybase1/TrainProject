@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>更改学生信息</title>
+</head>
+<body>
+<div style="text-align: center;">
+    <form th:action="@{/student/update}" method="post" style="display: inline-block;">
+        name: <input name="name" th:value="${student.name}"> <br>
+        <input name="id" type="hidden" th:value="${student.id}">
+        <button type="submit">提交</button>
+    </form>
+</div>
+</body>
+</html>

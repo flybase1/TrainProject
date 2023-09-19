@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.project01.mapper.StudentMapper">
+    <insert id="insertStudent">
+        insert into project_trained.student
+        values (#{id}, #{name})
+    </insert>
+
+    <update id="updateStudent">
+        update project_trained.student
+        <set>
+            <if test="name!=null">
+                name=#{name}
+            </if>
+        </set>
+        where
+        <if test="id != null">
+            id=#{id}
+        </if>
+    </update>
+
+    <delete id="deleteStudent">
+        delete
+        from project_trained.student
+        where
+        <if test="id!= null">
+            id = #{id}
+        </if>
+    </delete>
+
+
+    <select id="selectStudentList" resultType="com.example.project01.pojo.Student">
+        select *
+        from project_trained.student
+    </select>
+
+
+    <select id="selectStudentListQuery" resultType="com.example.project01.pojo.Student">
+        select *
+        from project_trained.student
+        <choose>
+            <when test="name != null and name != ''">
+                where name like concat('%', #{name}, '%')
+            </when>
+            <otherwise>
+                <!-- 如果name为空，则不加where条件，查询全部 -->
+            </otherwise>
+        </choose>
+    </select>
+
+    <select id="getStudentById" resultType="com.example.project01.pojo.Student">
+        select *
+        from project_trained.student
+        where id = #{id}
+    </select>
+</mapper>

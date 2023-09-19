@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body onload="getAllStudent()">
+<h1>学生管理</h1>
+
+<h2>添加学生</h2>
+<input type="text" id="addName" placeholder="学生姓名">
+<button id="addStudent" onclick="addStudent()">添加学生</button>
+
+<h2>删除学生</h2>
+<input type="text" id="deleteStudentId" placeholder="学生id">
+<button id="deleteStudent">删除学生</button>
+
+<h2>编辑学生</h2>
+<input type="text" id="editStudentId" placeholder="学生id">
+<input type="text" id="editStudentName" placeholder="学生姓名">
+<button id="editStudent">新建</button>
+
+<div id="result"></div>
+
+<h1>学生列表展示</h1>
+<table id="studentTable" border="1">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>学生姓名</th>
+        <th>创建时间</th>
+        <th>更新时间</th>
+    </tr>
+    </thead>
+    <tbody id="studentTableBody">
+    </tbody>
+</table>
+<div id="pagination">
+    <button id="firstPage">首页</button>
+    <button id="prevPage">上一页</button>
+    <button id="nextPage">下一页</button>
+    <button id="lastPage">末页</button>
+</div>
+
+</body>
+<script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
+<script>
+
+    function addStudent() {
+        let name = $('#addName').val()
+        $.ajax({
+            url: '/student/save',
+            type: 'POST',
+            data: {name: name},
+            success: function (data) {
+                window.location.href = 'index.html';
+                alert("添加成功")
+            },
+            error: function (data) {
+                alert("添加失败")
+            }
+        });
+    };
+
+
+    $("#deleteStudent").click(function () {
+        var studentId = $("#deleteStudentId").val();
+        $.ajax({
+            url: "/student/deleteStudent",
+            method: "DELETE",
+            data: {
+                id: studentId
+            },
+            success: function (response) {
+                $("#result").html(JSON.stringify(response, null, 2));
+                window.location.href = 'index.html';
+                alert("删除成功")
+            },
+            error: function (error) {
+                console.error("Error:", error);
+                $("#result").html("An error occurred while deleting the student.");
+            }
+        });
+    });
+
+    const currentPage = 1;
+    const pageSize = 10;
+    const pages = 1;
+
+    function getAllStudent(pageNum, pageSize) {
+        $.ajax({
+            url: "/student/all/page",
+            method: "GET",
+            data: {
+                pageNum: pageNum,
+                pageSize: pageSize
+            },
+            success: function (response) {
+                // totalRecords = response.data.studentPage.total;
+                // pages = response.data.studengPage.pages;
+                console.log(response)
+                console.log(response.data.studentPage.pages)
+                $("#studentTableBody").empty();
+                $.each(response.data.studentPage.records, function (index, student) {
+                    var row = $("<tr>");
+                    row.append($("<td>").text(student.id));
+                    row.append($("<td>").text(student.name));
+                    row.append($("<td>").text(student.createTime));
+                    row.append($("<td>").text(student.updateTime));
+                    $("#studentTableBody").append(row);
+                });
+            },
+            error: function (error) {
+                console.error("Error:", error);
+                $("#studentList").html("An error occurred while fetching students.");
+            }
+        });
+    }
+
+
+    // 在页面加载时获取第一页学生数据
+    $(document).ready(function () {
+        getAllStudent(currentPage, pageSize);
+
+        // 首页按钮点击事件
+        $("#firstPage").click(function () {
+            currentPage = 1;
+            getAllStudent(currentPage, pageSize);
+        });
+
+        // 上一页按钮点击事件
+        $("#prevPage").click(function () {
+            if (currentPage > 1) {
+                currentPage--;
+                getAllStudent(currentPage, pageSize);
+            }
+        });
+
+        // 下一页按钮点击事件
+        $("#nextPage").click(function () {
+            // 这里可以添加逻辑以检查是否还有更多页的数据
+            currentPage++;
+            getAllStudent(currentPage, pageSize);
+
+        });
+
+        // 末页按钮点击事件
+        $("#lastPage").click(function () {
+            // 这里可以添加逻辑以计算末页的页数
+            currentPage = pages;
+            getAllStudent(currentPage, pageSize);
+        });
+    });
+
+
+    // Function to handle the "Edit Student" button click event
+    $("#editStudent").click(function () {
+        var studentId = $("#editStudentId").val();
+        var newStudentName = $("#editStudentName").val();
+        $.ajax({
+            url: "/student/update",
+            method: "PUT",
+            data: {
+                id: studentId,
+                name: newStudentName
+            },
+            success: function (response) {
+
+                $("#result").html(JSON.stringify(response, null, 2));
+            },
+            error: function (error) {
+                console.error("Error:", error);
+                $("#result").html("An error occurred while editing the student.");
+            }
+        });
+    });
+</script>
+</html>
