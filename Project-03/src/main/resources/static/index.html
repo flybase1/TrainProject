@@ -83,9 +83,9 @@
         });
     });
 
-    const currentPage = 1;
-    const pageSize = 10;
-    const pages = 1;
+    var currentPage = 1;
+    var pageSize = 10;
+    var pages = 1;
 
     function getAllStudent(pageNum, pageSize) {
         $.ajax({
@@ -97,7 +97,7 @@
             },
             success: function (response) {
                 // totalRecords = response.data.studentPage.total;
-                // pages = response.data.studengPage.pages;
+                pages = response.data.studentPage.pages;
                 console.log(response)
                 console.log(response.data.studentPage.pages)
                 $("#studentTableBody").empty();
@@ -140,8 +140,10 @@
         $("#nextPage").click(function () {
             // 这里可以添加逻辑以检查是否还有更多页的数据
             currentPage++;
+            if(currentPage>=pages){
+                currentPage=pages
+            }
             getAllStudent(currentPage, pageSize);
-
         });
 
         // 末页按钮点击事件
