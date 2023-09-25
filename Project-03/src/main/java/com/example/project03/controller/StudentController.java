@@ -7,6 +7,8 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.project03.domain.Student;
 import com.example.project03.service.StudentService;
 import com.example.project03.utils.JsonResult;
+import com.example.project03.utils.MsgEnum;
+import com.example.project03.utils.MyException;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.stereotype.Controller;
@@ -66,6 +68,9 @@ public class StudentController {
     @DeleteMapping( "/deleteStudent" )
     public JsonResult studentDelete(Integer id) {
         boolean b = studentService.removeById(id);
+        if (!b){
+            throw new MyException(MsgEnum.PARMETER_EXCEPTION);
+        }
         return JsonResult.success().data("delete", b);
     }
 

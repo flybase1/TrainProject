@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>文件上传</title>
+    <script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
+</head>
+<body>
+<input type="file" id="file">
+<input type="button" onclick="upload()" value="上传">
+<!--显示上传图片的内容-->
+<div id="result">
+    <img id="img" src=""/>
+</div>
+</body>
+<script>
+    function upload() {
+        var sourceFile = $("#file")[0].files[0];
+        var formData = new FormData();
+        formData.append("file", sourceFile);
+        $.ajax({
+            type: 'post',
+            url: 'file/uploadImg',
+            data: formData,
+            processData: false, //不处理数据
+            contentType: false, //不设置类型
+            success: function (temp) {
+                if (temp.code === 0) {
+                    $("#img").attr("src","uploaded/" + temp.data.filename);
+                }
+            }
+        })
+    }
+</script>
+</html>

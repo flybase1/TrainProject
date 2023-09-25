@@ -39,6 +39,7 @@ spring:
         login-username: admin
         # \u7BA1\u7406\u9875\u9762\u767B\u9646\u7684\u5BC6\u7801
         login-password: admin
+
   main:
     allow-circular-references: true
 
