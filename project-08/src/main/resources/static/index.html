@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="UTF-8">
+    <title>验证码页面</title>
+</head>
+<body>
+
+<form action="#" method="post">
+
+    <!-- img标签负责向服务器 Controller 请求图片资源 -->
+    <img src="/test/qr" id="code" onclick="refresh();">
+
+</form>
+
+</body>
+
+<!-- “点击验证码图片，自动刷新” 脚本 -->
+<script>
+    function refresh() {
+        document.getElementById("code").src =
+            "/test/qr?time" + new Date().getTime();
+    }
+</script>
+</html>

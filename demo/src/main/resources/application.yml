@@ -1,0 +1,11 @@
+flyapi:
+  client:
+    secret-key: 3c7d179c3d60cf482201ac0ed064ee41
+    access-key: 3df51fd6742f3dc473f63858d98f0dc3
+
+qiniu:
+  accessKey: n9TzBTnphpov62YexeBwqi-uxgpcPU8OtnkbKMgb
+  secretKey: Ezz_fP-5UtLt5ZKdED5NOv4aHN2h3eZeTm_9JAV_
+  # 空间名称
+  bucket: flybase
+  url: http://cdn.flycode.icu/

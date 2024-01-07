@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<form action="#" method="post">
+
+    <!-- img标签负责向服务器 Controller 请求图片资源 -->
+    <img src="/test/code" id="code" onclick="refresh();">
+
+</form>
+
+</body>
+
+<script>
+    function refresh() {
+        document.getElementById("code").src =
+            "/test/qr?time" + new Date().getTime();
+    }
+</script>
+</html>

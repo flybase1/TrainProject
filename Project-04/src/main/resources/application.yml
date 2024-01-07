@@ -1,0 +1,35 @@
+server:
+  port: 8080
+#  servlet:
+#    context-path: /springboot-file
+#  tomcat:
+#    basedir: D:\fly\temp\uploaded\
+#    uri-encoding: UTF-8
+
+spring:
+  servlet:
+    multipart: # # \u4FEE\u6539\u6587\u4EF6\u4E0A\u4F20\u7684\u5927\u5C0F\u9650\u5236
+      max-request-size: 1024MB   # \u8FD0\u884C\u8BF7\u6C42\u4F20\u9012\u6587\u4EF6\u5927\u5C0F\u6700\u5927\u4E3A1024MB
+      max-file-size: 1024MB       # \u8FD0\u884C\u670D\u52A1\u5668\u53EF\u4EE5\u5904\u7406\u7684\u6700\u5927\u6587\u4EF6\u5927\u5C0F1024MB
+  profiles:
+    active: local # \u6FC0\u6D3B\u672C\u5730\u914D\u7F6E\u751F\u6548
+  mvc:
+   #static-path-pattern: /static/** # \u9759\u6001\u8D44\u6E90\u8BBF\u95EE\u8DEF\u5F84
+  thymeleaf:
+    enabled: true
+    prefix: classpath:/templates/
+    suffix: .html
+#  web:
+#    resources:
+#      static-locations:
+#        - file:${file.upload.dir}
+logging:
+  level:
+    root: info
+    xin.baizhiedu.controller: debug
+
+
+# \u6307\u5B9A\u6587\u4EF6\u4E0A\u4F20\u4F4D\u7F6E
+file:
+  upload:
+    dir: D:\fly\temp\uploaded # \u6307\u5B9A\u672C\u5730\u6D4B\u8BD5\u4E0A\u4F20\u76EE\u5F55
